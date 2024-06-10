@@ -1,30 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-// import type { NextRequest } from "next/server";
-
 
 export { default } from "next-auth/middleware";
 
-export async function middleware(request: NextRequest){
-
-    const token = await getToken({req: request});
+export async function middleware(request: NextRequest) {
+    const token = await getToken({ req: request });
     const url = request.nextUrl;
+    
+    // console.log("URL:", url.pathname);
+    // console.log("Token:", token);
+    // console.log("Request URL:", request.url);
 
-    if(token && (
-        url.pathname.startsWith("/sign-in") ||
-        url.pathname.startsWith("/sign-up") ||
-        url.pathname.startsWith("/verify") ||
-        url.pathname.startsWith("/")
-        )
-    ){
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+    // If the user is accessing auth pages and they are authenticated, redirect to dashboard
+    if (token) {
+        if (url.pathname === "/sign-in" || url.pathname === "/sign-up" || url.pathname.startsWith("/verify")) {
+            return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
     }
 
-    return NextResponse.redirect(new URL("/", request.url));
+    // If the user is not authenticated and trying to access protected pages, redirect to sign-in
+    if (!token && url.pathname.startsWith("/dashboard")) {
+        return NextResponse.redirect(new URL("/sign-in", request.url));
+    }
+
+    // Allow the request to proceed if none of the conditions above match
+    return NextResponse.next();
 }
 
 export const config = {
     matcher: [
+        "/",
         "/sign-in",
         "/sign-up",
         "/dashboard/:path*",

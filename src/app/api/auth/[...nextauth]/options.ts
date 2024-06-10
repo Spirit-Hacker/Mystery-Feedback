@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect from "@/lib/dbConnect";
@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
             name: "Credentials",
             credentials: {
                 email: {label: "Email", type: "email"},
-                password: {label: "Password", type: "text"}
+                password: {label: "Password", type: "password"}
             },
             async authorize(credentials: any): Promise<any>{
                 await dbConnect();
