@@ -9,6 +9,7 @@ export async function POST(request: Request){
 
     try {
         const { username, email, password } = await request.json();
+        // console.log("REQUEST : ", request);
 
         const existingUserVerifiedByUsername = await userModel.findOne({
             username: username,
@@ -93,7 +94,7 @@ export async function POST(request: Request){
         return Response.json(
             {
                 success: true,
-                message: "User registered successfully"
+                message: "User registered successfully",
             },
             {status: 200}
         );
