@@ -1,13 +1,11 @@
-"use client"
-
-import React from 'react'
+"use client";
 
 const page = () => {
-  return (
-    <div>
-      Dashboard
-    </div>
-  )
-}
+    return (
+        <div>
+            
+        </div>
+    )
+};
 
-export default page
+export default page;
