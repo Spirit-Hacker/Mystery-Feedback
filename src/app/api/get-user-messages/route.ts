@@ -11,15 +11,13 @@ export async function GET(request: Request) {
   const user: User = session?.user as User;
 
   if (!session || !session.user) {
-    if (!session || !session.user) {
-      return Response.json(
-        {
-          success: false,
-          message: "Not Authenticated",
-        },
-        { status: 401 }
-      );
-    }
+    return Response.json(
+      {
+        success: false,
+        message: "Not Authenticated",
+      },
+      { status: 401 }
+    );
   }
 
   const userId = user._id;
